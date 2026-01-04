@@ -6,15 +6,15 @@
   
   <title>记录四轮足机器人固定ABAD的调参过程 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="1、平地策略策略记录表   Time Isaac Gym Webots Real    2026.01.04 效果一般xxx 尚未进行 尚未进行   主要改进   Time Main Changing    2026.01.04 效果一般xxx   2、爬楼策略策略记录表   Time Isaac Gym Webots Real    2026.01.04 效果一般xxx 尚未进行 尚未进行">
+  <meta name="description" content="1、平地策略策略记录表   Time Isaac Gym Webots Real    2026.01.04 效果一般xxx 尚未进行 尚未进行   主要改进   Time Main Changing    2026-01-04 19:16:03 1234   2、爬楼策略策略记录表   Time Isaac Gym Webots Real    2026-01-04 10:16:00 前轮无法爬">
 <meta property="og:type" content="article">
 <meta property="og:title" content="记录四轮足机器人固定ABAD的调参过程">
 <meta property="og:url" content="http://example.com/2026/01/05/%E8%AE%B0%E5%BD%9512DOF%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%B0%83%E5%8F%82/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="1、平地策略策略记录表   Time Isaac Gym Webots Real    2026.01.04 效果一般xxx 尚未进行 尚未进行   主要改进   Time Main Changing    2026.01.04 效果一般xxx   2、爬楼策略策略记录表   Time Isaac Gym Webots Real    2026.01.04 效果一般xxx 尚未进行 尚未进行">
+<meta property="og:description" content="1、平地策略策略记录表   Time Isaac Gym Webots Real    2026.01.04 效果一般xxx 尚未进行 尚未进行   主要改进   Time Main Changing    2026-01-04 19:16:03 1234   2、爬楼策略策略记录表   Time Isaac Gym Webots Real    2026-01-04 10:16:00 前轮无法爬">
 <meta property="og:locale" content="en_US">
 <meta property="article:published_time" content="2026-01-05T11:00:00.000Z">
-<meta property="article:modified_time" content="2026-01-04T11:09:14.901Z">
+<meta property="article:modified_time" content="2026-01-04T12:18:22.000Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="FIXed ABAD">
 <meta property="article:tag" content="Reinforceing learning">
@@ -126,8 +126,8 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>2026.01.04</td>
-<td>效果一般xxx</td>
+<td>2026-01-04 19:16:03</td>
+<td>1234</td>
 </tr>
 </tbody></table>
 <h1 id="2、爬楼策略"><a href="#2、爬楼策略" class="headerlink" title="2、爬楼策略"></a>2、爬楼策略</h1><h2 id="策略记录表-1"><a href="#策略记录表-1" class="headerlink" title="策略记录表"></a>策略记录表</h2><table>
@@ -140,8 +140,8 @@
 </tr>
 </thead>
 <tbody><tr>
-<td align="left">2026.01.04</td>
-<td align="left">效果一般xxx</td>
+<td align="left">2026-01-04 10:16:00</td>
+<td align="left">前轮无法爬楼，后轮可以爬楼</td>
 <td align="left">尚未进行</td>
 <td align="left">尚未进行</td>
 </tr>
@@ -154,15 +154,20 @@
 </tr>
 </thead>
 <tbody><tr>
-<td>2026.01.04</td>
-<td>效果一般xxx</td>
+<td>2026-01-04 10:16:00</td>
+<td>使用爬楼奖励函数：feet_traction、climb_assist</td>
+</tr>
+<tr>
+<td>2026-01-04 19:16:03</td>
+<td>四轮足爬楼梯不太需要特别的奖励函数引导，所以使用策略基本和平地一致，先进行尝试</td>
 </tr>
 </tbody></table>
+<h3 id="奖励函数"><a href="#奖励函数" class="headerlink" title="奖励函数"></a>奖励函数</h3><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">_reward_feet_traction</span>(<span class="params">self</span>):</span><br><span class="line">    is_contact = (<span class="variable language_">self</span>.contact_forces[:, <span class="variable language_">self</span>.feet_indices, <span class="number">2</span>] &gt; <span class="number">1.0</span>).<span class="built_in">float</span>()</span><br><span class="line">    move_cmd = (torch.<span class="built_in">abs</span>(<span class="variable language_">self</span>.commands[:, <span class="number">0</span>]) &gt; <span class="number">0.1</span>).<span class="built_in">float</span>()</span><br><span class="line">    vx = <span class="variable language_">self</span>.base_lin_vel[:, <span class="number">0</span>]</span><br><span class="line">    vel_tracking = torch.clamp(vx * torch.sign(<span class="variable language_">self</span>.commands[:, <span class="number">0</span>]), <span class="built_in">min</span>=<span class="number">0.0</span>)</span><br><span class="line">    rew = torch.<span class="built_in">sum</span>(is_contact, dim=<span class="number">1</span>) * vel_tracking * move_cmd</span><br><span class="line">    <span class="keyword">return</span> rew</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">_reward_climb_assist</span>(<span class="params">self</span>):</span><br><span class="line">    move_cmd = (torch.<span class="built_in">abs</span>(<span class="variable language_">self</span>.commands[:, <span class="number">0</span>]) &gt; <span class="number">0.1</span>).<span class="built_in">float</span>()</span><br><span class="line">    vel_z = torch.clamp(<span class="variable language_">self</span>.base_lin_vel[:, <span class="number">2</span>], <span class="built_in">min</span>=<span class="number">0.0</span>)</span><br><span class="line">    is_contact = (torch.<span class="built_in">sum</span>(<span class="variable language_">self</span>.contact_forces[:, <span class="variable language_">self</span>.feet_indices, <span class="number">2</span>] &gt; <span class="number">1.0</span>, dim=<span class="number">1</span>) &gt; <span class="number">0</span>).<span class="built_in">float</span>()</span><br><span class="line">    <span class="keyword">return</span> vel_z * move_cmd * is_contact   </span><br></pre></td></tr></table></figure>
 
       
     </div>
     <footer class="article-footer">
-      <a data-url="http://example.com/2026/01/05/%E8%AE%B0%E5%BD%9512DOF%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%B0%83%E5%8F%82/" data-id="cuidod2J5jssEiJGtu5TeA7tg" data-title="记录四轮足机器人固定ABAD的调参过程" class="article-share-link"><span class="fa fa-share">Share</span></a>
+      <a data-url="http://example.com/2026/01/05/%E8%AE%B0%E5%BD%9512DOF%E6%9C%BA%E5%99%A8%E4%BA%BA%E8%B0%83%E5%8F%82/" data-id="cuidlQU1aK_JTDRWO5UsayL5E" data-title="记录四轮足机器人固定ABAD的调参过程" class="article-share-link"><span class="fa fa-share">Share</span></a>
       
       
       

@@ -1,0 +1,9 @@
+menu:
+  Home: /
+  Posts: /posts
+  Archives: /archives
+
+# 首页封面图（同时作为站点顶栏背景）
+banner: /images/home-cover.jpg
+# 可选副标题，展示在顶部 logo 下方
+# subtitle: Keep moving forward

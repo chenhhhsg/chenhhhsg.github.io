@@ -11,13 +11,11 @@ categories:
 
 ## 前言
 
-本文记录我在使用 **Hexo + GitHub Pages** 搭建个人博客后的**基础操作流程**，适合刚开始使用 Hexo 的新手，用来快速上手日常写作与发布。
+本文记录我在使用 **Hexo + GitHub Pages** 搭建个人博客后的基础操作流程，覆盖写作、上传源代码与发布静态网页。
 
 ---
 
-## 一、Hexo 博客的整体结构
-
-一个典型的 Hexo 博客目录结构如下：
+## 一、目录结构速览
 
 ```text
 hexo-blog
@@ -31,14 +29,11 @@ hexo-blog
 └── public             # 生成后的静态文件
 ```
 
-## 二、为什么写博客
+---
 
-写博客可以帮助我：
-- 记录学习过程
-- 梳理知识结构
-- 沉淀个人经验
+## 二、日常写作与发布流程
 
-使用 Hexo 写博客的流程很简单：先用 `hexo new "文章标题"` 创建文章，Hexo 会在 `source/_posts` 目录生成对应的 Markdown 文件；每篇文章顶部都有 Front-matter，用来设置标题、时间、分类和标签。写作时推荐用 VS Code 编辑正文，并在发布前用本地预览确认效果；确认无误后再生成静态文件并部署到 GitHub Pages。日常维护只要重复“创建文章 → 写内容 → 预览 → 发布”这条链路，就能稳定、高效地更新个人博客。
+推荐流程：创建文章 → 写内容 → 本地预览 → 生成并部署。
 
 ```bash
 # 创建新文章
@@ -47,11 +42,88 @@ hexo new "文章标题"
 # 本地预览（浏览器访问 http://localhost:4000）
 hexo s
 
-# 生成并部署到 GitHub Pages
+# 生成并部署（推荐一步完成）
+hexo g -d
+
+# 如遇到生成异常，先清理再生成
 hexo clean
 hexo g
-hexo d
+```
 
-# 或者一步完成（生成 + 部署）
+常用命令对照：
+- `hexo new`：创建文章
+- `hexo s` / `hexo server`：本地预览
+- `hexo g` / `hexo generate`：生成静态文件
+- `hexo d` / `hexo deploy`：部署
+
+---
+
+## 三、源码分支与静态分支
+
+当前策略：**源码分支 `source`**，**静态页面分支 `master`**。
+
+说明：
+- `source`：提交 Hexo 项目文件（配置、主题、`source/` 文章等）。
+- `master`：由 Hexo 生成并部署的静态页面，通常不手动编辑。
+- `public/` 是生成后的静态文件目录，一般不手动修改。
+
+源码提交示例：
+
+```bash
+git checkout source
+git add -A
+git commit -m "update posts"
+git push
+```
+
+部署静态页面：
+
+```bash
 hexo g -d
+```
+
+---
+
+## 四、部署配置（`_config.yml`）
+
+当前项目配置示例：
+
+```yml
+deploy:
+  type: git
+  repo: git@github.com:chenhhhsg/chenhhhsg.github.io.git
+  branch: master
+```
+
+如需迁移仓库，只需要修改 `repo` 地址即可，分支继续使用 `master`。
+
+---
+
+## 五、补充：图片、草稿与常见问题
+
+图片管理建议：
+```md
+![示例图](/images/example.png)
+```
+
+草稿流程：
+
+```bash
+# 创建草稿（存到 source/_drafts）
+hexo new draft "文章标题"
+
+# 发布草稿（移动到 source/_posts）
+hexo publish "文章标题"
+```
+
+部署后页面不更新的常见原因：
+- GitHub Pages 可能有缓存，稍等几分钟再刷新。
+- 仓库的 Pages 分支/目录设置要指向 `master` 并选择根目录。
+- 确认 `hexo g -d` 成功执行，且 `_config.yml` 的 `deploy` 配置正确。
+
+依赖安装与更新：
+
+```bash
+npm install
+npm update
 ```

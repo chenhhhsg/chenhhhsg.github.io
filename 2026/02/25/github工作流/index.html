@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#222" media="(prefers-color-scheme: dark)"><meta name="generator" content="Hexo 8.1.1">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css" integrity="sha256-VHqXKFhhMxcpubYf9xiWdCiojEbY9NexQ4jh8AxbvcM=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"example.com","root":"/","images":"/images","scheme":"Muse","darkmode":true,"version":"8.27.0","exturl":false,"sidebar":{"position":"left","width_expanded":320,"width_dual_column":240,"display":"post","padding":18,"offset":12},"hljswrap":true,"codeblock":{"theme":{"light":"default","dark":"stackoverflow-dark"},"prism":{"light":"prism","dark":"prism-dark"},"copy_button":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"language":false},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"duration":200,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}}</script><script src="/js/config.js" defer></script>
+
+    <meta name="description" content="更详细内容可见这篇：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;jamiechoo&#x2F;articles&#x2F;18408791 目标记录在 GitHub 上使用 Git 的基础命令与常见流程，适合日常提交与协作。  一、一次性配置123456# 设置用户名与邮箱（会显示在提交记录里）git config --global user.name &quot;Your Name&quot;git confi">
+<meta property="og:type" content="article">
+<meta property="og:title" content="GitHub 工作流（Git 基本指令）">
+<meta property="og:url" content="http://example.com/2026/02/25/github%E5%B7%A5%E4%BD%9C%E6%B5%81/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="更详细内容可见这篇：https:&#x2F;&#x2F;www.cnblogs.com&#x2F;jamiechoo&#x2F;articles&#x2F;18408791 目标记录在 GitHub 上使用 Git 的基础命令与常见流程，适合日常提交与协作。  一、一次性配置123456# 设置用户名与邮箱（会显示在提交记录里）git config --global user.name &quot;Your Name&quot;git confi">
+<meta property="og:locale" content="en_US">
+<meta property="article:published_time" content="2026-02-25T02:54:39.000Z">
+<meta property="article:modified_time" content="2026-02-26T18:25:42.140Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Git">
+<meta property="article:tag" content="GitHub">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://example.com/2026/02/25/github%E5%B7%A5%E4%BD%9C%E6%B5%81/">
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"en","comments":true,"permalink":"http://example.com/2026/02/25/github%E5%B7%A5%E4%BD%9C%E6%B5%81/","path":"2026/02/25/github工作流/","title":"GitHub 工作流（Git 基本指令）"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>GitHub 工作流（Git 基本指令） | Hexo</title>
+  
+
+
+
+
+
+
+
+
+  
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/animejs/3.2.1/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous" defer></script>
+<script src="/js/utils.js" defer></script><script src="/js/motion.js" defer></script><script src="/js/sidebar.js" defer></script><script src="/js/next-boot.js" defer></script>
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">Hexo</p>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="Search" role="button">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%9B%AE%E6%A0%87"><span class="nav-number">1.</span> <span class="nav-text">目标</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%80%E3%80%81%E4%B8%80%E6%AC%A1%E6%80%A7%E9%85%8D%E7%BD%AE"><span class="nav-number">2.</span> <span class="nav-text">一、一次性配置</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%8C%E3%80%81%E4%BB%8E%E9%9B%B6%E5%BC%80%E5%A7%8B%EF%BC%88%E5%88%9D%E5%A7%8B%E5%8C%96%E5%B9%B6%E9%A6%96%E6%AC%A1%E6%8E%A8%E9%80%81%EF%BC%89"><span class="nav-number">3.</span> <span class="nav-text">二、从零开始（初始化并首次推送）</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%89%E3%80%81%E6%97%A5%E5%B8%B8%E6%9B%B4%E6%96%B0%E6%B5%81%E7%A8%8B"><span class="nav-number">4.</span> <span class="nav-text">三、日常更新流程</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9B%9B%E3%80%81%E5%88%86%E6%94%AF%E5%B8%B8%E7%94%A8%E6%93%8D%E4%BD%9C"><span class="nav-number">5.</span> <span class="nav-text">四、分支常用操作</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%BA%94%E3%80%81%E5%B8%B8%E7%94%A8%E6%8E%92%E6%9F%A5%E5%91%BD%E4%BB%A4"><span class="nav-number">6.</span> <span class="nav-text">五、常用排查命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AD%E3%80%81git-reset%EF%BC%9A%E5%9B%9E%E6%BB%9A%E4%BB%A3%E7%A0%81"><span class="nav-number">7.</span> <span class="nav-text">六、git reset：回滚代码</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%B8%8E-git-revert-%E7%9A%84%E5%AF%B9%E6%AF%94"><span class="nav-number">7.1.</span> <span class="nav-text">与 git revert 的对比</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E3%80%81-gitignore-%E7%9A%84%E7%94%A8%E6%B3%95%E4%B8%8E%E6%A0%BC%E5%BC%8F"><span class="nav-number">8.</span> <span class="nav-text">七、.gitignore 的用法与格式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%AB%E3%80%81%E5%B8%B8%E8%A7%81%E9%97%AE%E9%A2%98%E6%8F%90%E7%A4%BA"><span class="nav-number">9.</span> <span class="nav-text">八、常见问题提示</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">9</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">categories</span>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">15</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="en">
+    <link itemprop="mainEntityOfPage" href="http://example.com/2026/02/25/github%E5%B7%A5%E4%BD%9C%E6%B5%81/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="GitHub 工作流（Git 基本指令） | Hexo">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          GitHub 工作流（Git 基本指令）
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2026-02-25 10:54:39" itemprop="dateCreated datePublished" datetime="2026-02-25T10:54:39+08:00">2026-02-25</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">Edited on</span>
+      <time title="Modified: 2026-02-27 02:25:42" itemprop="dateModified" datetime="2026-02-27T02:25:42+08:00">2026-02-27</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">In</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/%E6%8A%80%E6%9C%AF/" itemprop="url" rel="index"><span itemprop="name">技术</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><p>更详细内容可见这篇：<code>https://www.cnblogs.com/jamiechoo/articles/18408791</code></p>
+<h2 id="目标"><a href="#目标" class="headerlink" title="目标"></a>目标</h2><p>记录在 GitHub 上使用 Git 的基础命令与常见流程，适合日常提交与协作。</p>
+<hr>
+<h2 id="一、一次性配置"><a href="#一、一次性配置" class="headerlink" title="一、一次性配置"></a>一、一次性配置</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 设置用户名与邮箱（会显示在提交记录里）</span></span><br><span class="line">git config --global user.name <span class="string">&quot;Your Name&quot;</span></span><br><span class="line">git config --global user.email <span class="string">&quot;you@example.com&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看配置</span></span><br><span class="line">git config --global --list</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="二、从零开始（初始化并首次推送）"><a href="#二、从零开始（初始化并首次推送）" class="headerlink" title="二、从零开始（初始化并首次推送）"></a>二、从零开始（初始化并首次推送）</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 在本地初始化仓库</span></span><br><span class="line">git init</span><br><span class="line"></span><br><span class="line"><span class="comment"># 绑定远程仓库（替换为你的 GitHub 仓库地址）</span></span><br><span class="line">git remote add origin git@github.com:username/repo.git</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 README 或进行第一次改动</span></span><br><span class="line">git add -A</span><br><span class="line">git commit -m <span class="string">&quot;init&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 首次推送</span></span><br><span class="line">git push -u origin main</span><br></pre></td></tr></table></figure>
+
+<p>如果是已有仓库，直接克隆：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">git <span class="built_in">clone</span> git@github.com:username/repo.git</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="三、日常更新流程"><a href="#三、日常更新流程" class="headerlink" title="三、日常更新流程"></a>三、日常更新流程</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看状态</span></span><br><span class="line">git status</span><br><span class="line"></span><br><span class="line"><span class="comment"># 暂存改动</span></span><br><span class="line">git add -A</span><br><span class="line"></span><br><span class="line"><span class="comment"># 提交</span></span><br><span class="line">git commit -m <span class="string">&quot;update&quot;</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 拉取远端最新（可选）</span></span><br><span class="line">git pull</span><br><span class="line"></span><br><span class="line"><span class="comment"># 推送到 GitHub</span></span><br><span class="line">git push</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="四、分支常用操作"><a href="#四、分支常用操作" class="headerlink" title="四、分支常用操作"></a>四、分支常用操作</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看分支</span></span><br><span class="line">git branch</span><br><span class="line"></span><br><span class="line"><span class="comment"># 新建并切换分支</span></span><br><span class="line">git switch -c feature/xxx</span><br><span class="line"></span><br><span class="line"><span class="comment"># 切回主分支</span></span><br><span class="line">git switch main</span><br><span class="line"></span><br><span class="line"><span class="comment"># 合并分支（在 main 上执行）</span></span><br><span class="line">git merge feature/xxx</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="五、常用排查命令"><a href="#五、常用排查命令" class="headerlink" title="五、常用排查命令"></a>五、常用排查命令</h2><figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 查看提交历史</span></span><br><span class="line">git <span class="built_in">log</span> --oneline --graph --decorate</span><br><span class="line"></span><br><span class="line"><span class="comment"># 查看改动内容</span></span><br><span class="line">git diff</span><br><span class="line"></span><br><span class="line"><span class="comment"># 临时保存改动</span></span><br><span class="line">git stash</span><br><span class="line">git stash pop</span><br></pre></td></tr></table></figure>
+
+<hr>
+<h2 id="六、git-reset：回滚代码"><a href="#六、git-reset：回滚代码" class="headerlink" title="六、git reset：回滚代码"></a>六、git reset：回滚代码</h2><p><code>git reset</code> 用于把当前分支回退到某个提交，并根据参数决定是否保留工作区&#x2F;暂存区改动。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 仅回退提交记录，保留工作区和暂存区改动</span></span><br><span class="line">git reset --soft HEAD~1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回退提交记录，保留工作区改动（清空暂存区）</span></span><br><span class="line">git reset --mixed HEAD~1</span><br><span class="line"></span><br><span class="line"><span class="comment"># 回退提交记录，同时丢弃工作区改动（谨慎）</span></span><br><span class="line">git reset --hard HEAD~1</span><br></pre></td></tr></table></figure>
+
+<p>常用场景：</p>
+<ul>
+<li>提交写错了，想重新整理提交内容：用 <code>--soft</code>。</li>
+<li>只想撤销提交、保留本地改动：用 <code>--mixed</code>（默认）。</li>
+<li>想彻底丢弃最近改动：用 <code>--hard</code>（不可逆，谨慎）。</li>
+</ul>
+<p>提示：</p>
+<ul>
+<li>回退到指定提交：<code>git reset --hard &lt;commit_id&gt;</code>。</li>
+<li>如果提交已经推到远端，回滚需谨慎，建议用 <code>git revert</code> 生成反向提交。</li>
+</ul>
+<h3 id="与-git-revert-的对比"><a href="#与-git-revert-的对比" class="headerlink" title="与 git revert 的对比"></a>与 <code>git revert</code> 的对比</h3><p><code>git revert</code> <strong>不会改写历史</strong>，而是创建一个“反向提交”来撤销某次提交的效果，适合已推送到远端的场景。</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 撤销某次提交（生成一个新的反向提交）</span></span><br><span class="line">git revert &lt;commit_id&gt;</span><br><span class="line"></span><br><span class="line"><span class="comment"># 连续撤销多个提交（按顺序生成多个反向提交）</span></span><br><span class="line">git revert &lt;commit_id1&gt; &lt;commit_id2&gt;</span><br></pre></td></tr></table></figure>
+
+<p>简要对比：</p>
+<ul>
+<li><code>git reset</code>：移动分支指针，可能改写历史；更适合本地或未推送的提交。</li>
+<li><code>git revert</code>：新增反向提交，保留历史；更适合已推送的提交。</li>
+</ul>
+<hr>
+<h2 id="七、-gitignore-的用法与格式"><a href="#七、-gitignore-的用法与格式" class="headerlink" title="七、.gitignore 的用法与格式"></a>七、.gitignore 的用法与格式</h2><p><code>.gitignore</code> 用来告诉 Git <strong>哪些文件&#x2F;目录不需要纳入版本控制</strong>。常见场景是忽略构建产物、依赖目录、临时文件、日志等。</p>
+<p>基本规则：</p>
+<ul>
+<li>每行一个匹配规则</li>
+<li>以 <code>#</code> 开头的是注释</li>
+<li>以 <code>/</code> 结尾表示目录</li>
+<li><code>*</code> 匹配任意字符，<code>?</code> 匹配单个字符</li>
+<li><code>**</code> 可跨目录匹配</li>
+<li>以 <code>!</code> 开头表示“取消忽略”</li>
+</ul>
+<p>示例：</p>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line"># 依赖目录</span><br><span class="line">node_modules/</span><br><span class="line"></span><br><span class="line"># 构建输出</span><br><span class="line">public/</span><br><span class="line">dist/</span><br><span class="line"></span><br><span class="line"># 系统文件</span><br><span class="line">.DS_Store</span><br><span class="line">Thumbs.db</span><br><span class="line"></span><br><span class="line"># 日志</span><br><span class="line">*.log</span><br><span class="line"></span><br><span class="line"># 忽略所有 .env 文件，但保留示例</span><br><span class="line">.env*</span><br><span class="line">!.env.example</span><br><span class="line"></span><br><span class="line"># 忽略某个目录下的所有临时文件</span><br><span class="line">temp/**</span><br></pre></td></tr></table></figure>
+
+<p>使用方式：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment"># 新建或编辑 .gitignore</span></span><br><span class="line"><span class="built_in">touch</span> .gitignore</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将忽略规则写入后提交</span></span><br><span class="line">git add .gitignore</span><br><span class="line">git commit -m <span class="string">&quot;add .gitignore&quot;</span></span><br></pre></td></tr></table></figure>
+
+<p>注意：</p>
+<ul>
+<li><code>.gitignore</code> <strong>只对未追踪文件生效</strong>，已被追踪的文件不会自动移除。</li>
+<li>若要停止追踪已提交的文件，可以先执行 <code>git rm --cached 文件名</code> 再提交。</li>
+</ul>
+<hr>
+<h2 id="八、常见问题提示"><a href="#八、常见问题提示" class="headerlink" title="八、常见问题提示"></a>八、常见问题提示</h2><ul>
+<li>首次推送失败多为远程地址或权限问题，先检查 <code>git remote -v</code>。</li>
+<li>分支名如果不是 <code>main</code>，把命令里的 <code>main</code> 改成你的实际主分支。</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Git/" rel="tag"># Git</a>
+              <a href="/tags/GitHub/" rel="tag"># GitHub</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2026/01/06/%E5%B7%A5%E4%BD%9C%E6%97%A5%E5%BF%97/" rel="prev" title="工作日志">
+                  <i class="fa fa-angle-left"></i> 工作日志
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2026/02/26/linux%E5%9F%BA%E7%A1%80%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" rel="next" title="linux基础使用指南">
+                  linux基础使用指南 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2026</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">John Doe</span>
+  </div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="Back to top">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+</body>
+</html>

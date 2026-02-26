@@ -7,6 +7,7 @@ tags:
 categories:
   - 技术
 ---
+更详细内容可见这篇：`https://www.cnblogs.com/jamiechoo/articles/18408791`
 
 ## 目标
 
@@ -107,7 +108,103 @@ git stash pop
 
 ---
 
-## 六、常见问题提示
+## 六、git reset：回滚代码
+
+`git reset` 用于把当前分支回退到某个提交，并根据参数决定是否保留工作区/暂存区改动。
+
+```bash
+# 仅回退提交记录，保留工作区和暂存区改动
+git reset --soft HEAD~1
+
+# 回退提交记录，保留工作区改动（清空暂存区）
+git reset --mixed HEAD~1
+
+# 回退提交记录，同时丢弃工作区改动（谨慎）
+git reset --hard HEAD~1
+```
+
+常用场景：
+- 提交写错了，想重新整理提交内容：用 `--soft`。
+- 只想撤销提交、保留本地改动：用 `--mixed`（默认）。
+- 想彻底丢弃最近改动：用 `--hard`（不可逆，谨慎）。
+
+提示：
+- 回退到指定提交：`git reset --hard <commit_id>`。
+- 如果提交已经推到远端，回滚需谨慎，建议用 `git revert` 生成反向提交。
+
+### 与 `git revert` 的对比
+
+`git revert` **不会改写历史**，而是创建一个“反向提交”来撤销某次提交的效果，适合已推送到远端的场景。
+
+```bash
+# 撤销某次提交（生成一个新的反向提交）
+git revert <commit_id>
+
+# 连续撤销多个提交（按顺序生成多个反向提交）
+git revert <commit_id1> <commit_id2>
+```
+
+简要对比：
+- `git reset`：移动分支指针，可能改写历史；更适合本地或未推送的提交。
+- `git revert`：新增反向提交，保留历史；更适合已推送的提交。
+
+---
+
+## 七、.gitignore 的用法与格式
+
+`.gitignore` 用来告诉 Git **哪些文件/目录不需要纳入版本控制**。常见场景是忽略构建产物、依赖目录、临时文件、日志等。
+
+基本规则：
+- 每行一个匹配规则
+- 以 `#` 开头的是注释
+- 以 `/` 结尾表示目录
+- `*` 匹配任意字符，`?` 匹配单个字符
+- `**` 可跨目录匹配
+- 以 `!` 开头表示“取消忽略”
+
+示例：
+
+```gitignore
+# 依赖目录
+node_modules/
+
+# 构建输出
+public/
+dist/
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 日志
+*.log
+
+# 忽略所有 .env 文件，但保留示例
+.env*
+!.env.example
+
+# 忽略某个目录下的所有临时文件
+temp/**
+```
+
+使用方式：
+
+```bash
+# 新建或编辑 .gitignore
+touch .gitignore
+
+# 将忽略规则写入后提交
+git add .gitignore
+git commit -m "add .gitignore"
+```
+
+注意：
+- `.gitignore` **只对未追踪文件生效**，已被追踪的文件不会自动移除。
+- 若要停止追踪已提交的文件，可以先执行 `git rm --cached 文件名` 再提交。
+
+---
+
+## 八、常见问题提示
 
 - 首次推送失败多为远程地址或权限问题，先检查 `git remote -v`。
 - 分支名如果不是 `main`，把命令里的 `main` 改成你的实际主分支。

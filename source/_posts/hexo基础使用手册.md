@@ -54,7 +54,7 @@ npm install hexo-deployer-git --save
 ```text
 hexo-blog
 ├── _config.yml              # 全局配置（站点信息、URL、部署等）
-├── _config.landscape.yml    # 主题配置（菜单、封面等）
+├── _config.fengye.yml       # fengye 主题配置（导航、图标、文案等）
 ├── package.json
 ├── source
 │   ├── _posts               # 博文目录
@@ -66,7 +66,60 @@ hexo-blog
 
 ---
 
-## 三、基础配置（站点可用的关键项）
+## 三、理解 source、path 与 index.md（非常重要）
+
+### 1）`source` 不只有 `_posts`
+
+`source` 通常包含：
+
+- `source/_posts/`：文章
+- `source/<page>/index.md`：独立页面（如 `/checkin/`、`/roadmap/`）
+- `source/images/`：静态资源
+
+说明：
+- 你可以在 `source/_posts/` 下再建很多子目录（例如 `weekly/`）方便管理。
+- 但“网站栏目分类”主要由文章 front-matter 的 `categories` 决定，不是由文件夹名决定。
+
+### 2）`path` 是“导航跳转地址”，不是“文件分类规则”
+
+在 `fengye` 里，`nav.path` 的作用是：点击菜单后跳到哪个 URL。
+
+示例（在 `_config.fengye.yml`）：
+
+```yml
+nav:
+  checkin:
+    path: /checkin/
+    icon: mingcute:calendar-fill
+    text: 打卡
+```
+
+建议写法：
+- 站内路径统一写成 `/xxx/`（以 `/` 开头、以 `/` 结尾）
+- 例如 `/posts/`、`/archives/`、`/categories/`、`/checkin/`
+
+### 3）`index.md` 是目录对应页面的入口文件
+
+规则：
+- `source/checkin/index.md` -> `/checkin/`
+- `source/roadmap/index.md` -> `/roadmap/`
+- `source/about/index.md` -> `/about/`
+
+### 4）为什么没有 `source/archives/` 也能访问 `/archives/`
+
+因为这类页面是 Hexo 生成器自动生成的，不需要你手动建目录。
+
+自动生成页常见有：
+- `/archives/`
+- `/categories/`
+- `/tags/`
+- `/posts/`（由 `index_generator.path` 决定）
+
+手动页面则需要你创建 `source/<name>/index.md`。
+
+---
+
+## 四、基础配置（站点可用的关键项）
 
 编辑 `_config.yml`，至少确认以下内容：
 
@@ -98,7 +151,7 @@ deploy:
 
 ---
 
-## 四、写文章、写页面、写草稿
+## 五、写文章、写页面、写草稿
 
 ### 1）新建文章
 
@@ -140,7 +193,7 @@ published: true
 
 ---
 
-## 五、日常发布流程（最常用）
+## 六、日常发布流程（最常用）
 
 推荐流程：写作 -> 本地预览 -> 生成部署。
 
@@ -158,25 +211,30 @@ hexo g
 
 ---
 
-## 六、文章超链接索引页（标题可点击）
+## 七、文章超链接索引页（标题可点击）
 
-Hexo 原生支持 `/posts` 作为文章列表页。  
+Hexo 原生支持 `/posts/` 作为文章列表页。  
 你当前配置里 `index_generator.path: posts` 即对应这个路径。
 
-在 `_config.landscape.yml` 添加菜单入口：
+在 `_config.fengye.yml` 添加菜单入口：
 
 ```yml
-menu:
-  Home: /
-  索引: /posts
-  Archives: /archives
+nav:
+  posts:
+    path: /posts/
+    icon: mingcute:inbox-fill
+    text: 文章
+  archives:
+    path: /archives/
+    icon: mingcute:inbox-fill
+    text: 归档
 ```
 
 访问 `http://localhost:4000/posts/` 即可看到可点击标题列表。
 
 ---
 
-## 七、分类、标签、归档怎么用
+## 八、分类、标签、归档怎么用
 
 ### 1）在文章里写分类和标签
 
@@ -194,20 +252,23 @@ categories:
 - 分类页：`/categories/`
 - 归档页：`/archives/`
 
-如果主题菜单没有入口，可在 `_config.landscape.yml` 增加：
+如果主题菜单没有入口，可在 `_config.fengye.yml` 增加：
 
 ```yml
-menu:
-  Home: /
-  索引: /posts
-  Archives: /archives
-  Categories: /categories
-  Tags: /tags
+nav:
+  categories:
+    path: /categories/
+    icon: mingcute:classify-2-fill
+    text: 分类
+  tags:
+    path: /tags/
+    icon: mingcute:tag-fill
+    text: 标签
 ```
 
 ---
 
-## 八、图片与资源管理
+## 九、图片与资源管理
 
 你可以用两种方式：
 
@@ -252,7 +313,7 @@ hexo new "我的文章"
 
 ---
 
-## 九、分支与备份建议
+## 十、分支与备份建议
 
 当前策略：
 
@@ -279,7 +340,7 @@ hexo s
 
 ---
 
-## 十、隐藏博客/隐藏文章
+## 十一、隐藏博客/隐藏文章
 
 1. 隐藏整站（外网不可访问）  
 在 GitHub 仓库 `Settings -> Pages` 关闭 Pages（`Source` 设为 `None`）。
@@ -300,17 +361,17 @@ published: false
 
 ---
 
-## 十一、常见问题排查
+## 十二、常见问题排查
 
 - 页面没更新：确认 `hexo g -d` 成功后，等待几分钟再刷新。
 - 部署失败：检查 `deploy.repo`、SSH 权限、仓库地址是否正确。
-- 菜单没变化：确认改的是 `_config.landscape.yml`，并执行 `hexo clean && hexo g`。
+- 菜单没变化：确认改的是 `_config.fengye.yml`，并执行 `hexo clean && hexo g`。
 - 链接错误：优先检查 `_config.yml` 的 `url` 和 `root`。
-- 本地能看线上 404：检查 GitHub Pages 分支是否指向部署分支（你当前是 `master`）。
+- 本地能看线上 404：检查 GitHub Pages 分支是否指向部署分支。
 
 ---
 
-## 十二、命令速查
+## 十三、命令速查
 
 - `hexo init <dir>`：初始化站点
 - `hexo new "标题"`：新建文章

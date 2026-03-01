@@ -20,4 +20,4 @@ secondary_link: /archives
 - 稳定的笔记流：写作 → 预览 → 发布
 
 ## 进入博客
-[文章列表](/posts) · [归档](/archives)
+[栏目导航](/columns/) · [文章列表](/posts) · [归档](/archives)

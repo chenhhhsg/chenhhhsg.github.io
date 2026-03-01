@@ -1,0 +1,35 @@
+.hub-grid
+  display grid
+  grid-template-columns repeat(auto-fit, minmax(260px, 1fr))
+  gap 16px
+  margin 1.2rem 0 1.6rem
+
+.hub-card
+  background var(--content-bg-color, #fff)
+  border 1px solid var(--border-color, #e5e7eb)
+  border-radius 14px
+  padding 14px 16px
+  transition border-color .2s ease, box-shadow .2s ease, transform .2s ease
+
+.hub-card:hover
+  transform translateY(-2px)
+  border-color var(--link-color, #2f80ed)
+  box-shadow 0 10px 24px rgba(0, 0, 0, .08)
+
+.hub-card h3
+  margin 0 0 10px
+  font-size 1.05rem
+
+.hub-card ul
+  margin 0
+  padding-left 18px
+
+.hub-card li
+  margin 6px 0
+
+.hub-card a
+  text-decoration none
+  border-bottom 1px dashed transparent
+
+.hub-card a:hover
+  border-bottom-color var(--link-color, #2f80ed)
